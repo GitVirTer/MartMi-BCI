@@ -9,7 +9,7 @@ tic;
 [ImageDataSeg, ~, nSeg] = FBNN_Segment(ImageDataCell, []);
 % clearvars DataTrainCell DataTestCell
 disp(['Segmentation Completed, Time Comsumption:' num2str(toc) 's']);
-%% FB特征提取
+%% FB鐗瑰緛鎻愬彇
 tic;
 nCSP = 2;
 
@@ -24,13 +24,15 @@ if ParallelFlag
 
     end
 else
-    for iSeg = 1:nSeg
-        for iBand = 1:nBand
-            iSegBand = (iSeg-1)*nBand+iBand;    %检查！！！
-            [VarMapImageData(iSegBand, :, :), ~, Wcsp{iSegBand}] = FilterBankFeatureExt(ImageDataSeg{iSeg}{iBand}, [], ImageLabel, [], nCSP, CSP_Config);
-            disp(['Extrating Features... iSegBand = ' num2str(iSegBand)]);
-        end
-    end    
+    for iSegBand = 1:nSeg*nBand
+        iBand = mod(iSegBand,nBand);
+        if iBand==0 iBand=nBand; end
+        iSeg = floor((iSegBand-1)/nBand)+1;
+
+        [VarMapImageData(iSegBand, :, :), ~, Wcsp{iSegBand}] = FilterBankFeatureExt(ImageDataSeg{iSeg}{iBand}, [], ImageLabel, [], nCSP, CSP_Config);
+        disp(['Extrating Features... iSegBand = ' num2str(iSegBand)]);
+
+    end 
 end
 % clearvars DataTrainSeg DataTestSeg
 
@@ -62,7 +64,7 @@ if SelFlag
     [DataSel.Train, DataSel.Test, DataSel.TrainLabel, DataSel.TestLabel] = GetFoldData(ImageData, ImageLabel, ~(indices_train == 1), (indices_train == 1), nClass);
     [~, ~, ~, ~, ~, PatFeature_Sel] = FBNN_Excute_CPIII(DataSel.Train,DataSel.TrainLabel,DataSel.Test,DataSel.TestLabel,ParallelFlag,CSP_Config,1);
     [accMat{1}, kappaMat{1}] = FBNN_Excute_FeatureSelection(PatFeature_Sel,ParallelFlag,1);
-    PlotTFMap_All(accMat);  %画出图像
+    PlotTFMap_All(accMat);  %鐢诲嚭鍥惧儚
     PatCspIdx = GetDesignatedFeatureIndex(accMat, 150);
     disp(['Feature Extraction Completed, Time Comsumption:' num2str(toc) 's']);
 end

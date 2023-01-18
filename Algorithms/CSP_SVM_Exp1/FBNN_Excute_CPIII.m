@@ -26,7 +26,7 @@ tic;
 [DataTrainSeg, DataTestSeg, nSeg] = FBNN_Segment(DataTrainCell, DataTestCell);
 % clearvars DataTrainCell DataTestCell
 toc;
-%% FB特征提取
+%% FB鐗瑰緛鎻愬彇
 tic;
 nCSP = 2;
 
@@ -41,13 +41,15 @@ if ParallelFlag
 
     end
 else
-    for iSeg = 1:nSeg
-        for iBand = 1:nBand
-            iSegBand = (iSeg-1)*nBand+iBand;    %检查！！！
-            [VarMapTrain(iSegBand, :, :), VarMapTest(iSegBand, :, :), Wcsp{iSegBand}] = FilterBankFeatureExt(DataTrainSeg{iSeg}{iBand}, DataTestSeg{iSeg}{iBand}, DataTrainLabel, DataTestLabel, nCSP);
-            disp(['Extrating Features... iSegBand = ' num2str(iSegBand)]);
-        end
-    end    
+    for iSegBand = 1:nSeg*nBand
+        iBand = mod(iSegBand,nBand);
+        if iBand==0 iBand=nBand; end
+        iSeg = floor((iSegBand-1)/nBand)+1;
+
+        [VarMapTrain(iSegBand, :, :), VarMapTest(iSegBand, :, :), Wcsp{iSegBand}] = FilterBankFeatureExt(DataTrainSeg{iSeg}{iBand}, DataTestSeg{iSeg}{iBand}, DataTrainLabel, DataTestLabel, nCSP, CSP_Config);
+        disp(['Extracting Features... iSegBand = ' num2str(iSegBand)]);
+
+    end 
 end
 % clearvars DataTrainSeg DataTestSeg
 
@@ -85,7 +87,7 @@ PatFeature.DataTestLabel = DataTestLabel;
 % DataTrain_Format = FeatureMatTrain;
 % DataTest_Format = FeatureMatTest;
 toc;
-%% 训练
+%% 璁粌
 
 % [net, sumh2, suma2] = trainNet2_ButterFB(DataTrain_Format, DataTest_Format, DataTrainLabel, DataTestLabel);
 

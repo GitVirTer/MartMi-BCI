@@ -495,33 +495,11 @@ else
     SecCnt = 1;
 end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Constant %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-PackageLen = 33;
-nCh = 8;
-scale_fac_uVolts_per_count = 0.022351744455307063;
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%******************** Section Start *************************************
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Read Data From Buffer %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-recdta = fread(ObjSerial, BufferSize, 'uchar');   % Receive serial data from OpenBCI (33 Bytes/Package, 256 Package/Second)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+[UnpackedData, UnpackedDataRaw] = decodeOpenBCIData(ObjSerial, BufferSize);
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Unpack Data %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-A0 = find(recdta==hex2dec('A0'));
-iPackage = 0;
-for iSt = 1:numel(A0)
-    if (A0(iSt)+PackageLen-1<=numel(recdta))&&(recdta(A0(iSt)+PackageLen-1)==192)    % 'C0'=192
-        iPackage = iPackage+1;
-        PackArr(iPackage,:) = recdta(A0(iSt):A0(iSt)+PackageLen-1);
-    end
-end
-PackArr = PackArr(:,3:26);
-UnpackedData = zeros(nCh,size(PackArr,1));
-for iCh = 1:nCh
-    UnpackedData(iCh,:) = UnpackData(PackArr(:,(iCh-1)*3+1:iCh*3));
-end
-UnpackedData = UnpackedData.*scale_fac_uVolts_per_count;
-UnpackedDataRaw = UnpackedData;
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%******************** Section End ***************************************
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Filtering %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 [UnpackedData, Filter.HistoryOutput] = filter(Filter.Coeff_b, Filter.Coeff_a, UnpackedData, Filter.HistoryOutput, 2);

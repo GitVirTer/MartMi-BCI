@@ -18,7 +18,7 @@ System:
 - Windows 7 and later
 
 Software:
-- MATLAB R2019b and later releases
+- MATLAB R2019a and later releases
 - Deep Learning Toolbox
 - Signal Processing Toolbox
 - Statistics and Machine Learning Toolbox

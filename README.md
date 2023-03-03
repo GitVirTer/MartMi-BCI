@@ -4,6 +4,8 @@ This work develops a Matlab-based real-time MI-BCI (MartMi-BCI) software, which 
 1. The RTEEGAP can realize real-time EEG analysis in time, frequency, and spatial domains and perform MI experiments with real-time feedback based on the OpenBCI device. 
 2. The MTP can train the CSP-based MI classification model and visualize the time-frequency reaction map.
 
+![alt text](https://github.com/GitVirTer/MartMi-BCI/blob/main/Data/Picture/BCI_Analyzer_All.png?raw=true)
+
 ## Citation
 
 Please cite the tool using this website repository and the manuscript:

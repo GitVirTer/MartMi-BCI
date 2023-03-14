@@ -10,7 +10,7 @@ This work develops a Matlab-based real-time MI-BCI (MartMi-BCI) software, which 
 
 Please cite the tool using this website repository and the manuscript:
 
-- Guoyang Liu, Janet H. Hsiao, Weidong Zhou, and Lan Tian. "MartMi-BCI: A Matlab-based Real-Time Motor Imagery Brain-Computer Interface Platform." SoftwareX (Accepted).
+- Guoyang Liu, Janet H. Hsiao, Weidong Zhou, and Lan Tian. "MartMi-BCI: A Matlab-based Real-Time Motor Imagery Brain-Computer Interface Platform." SoftwareX (2023)  (Accepted).
 - Guoyang Liu, Lan Tian, and Weidong Zhou. "Multiscale Time-Frequency Method for Multiclass Motor Imagery Brain Computer Interface." Computers in Biology and Medicine 143 (2022): 105299.
 
 

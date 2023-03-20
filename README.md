@@ -44,7 +44,6 @@ Note:
   - /TestData/TrainedModel_WithoutFeatureSelection.mat is the model trained on MTP (without feature selection procedure).
 
 ## Corresponding Author
-If there is any technical issue, please contact the corresponding author:
-Guoyang Liu: gyangliu@hku.hk
+If there is any technical issue, please contact the corresponding author Guoyang Liu: gyangliu@hku.hk
 
 
